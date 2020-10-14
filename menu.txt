@@ -1,0 +1,8 @@
+[-] Usage
+
+            [1]     List all the HTB active Machines ( API KEY )     
+            [2]     Scan a machine using Nmap                        
+            [3]     Set listening port for reverse shells ( NetCat ) 
+            [4]     Fuzz web directories ( FFUF )  
+            [5]     Exit
+                  
