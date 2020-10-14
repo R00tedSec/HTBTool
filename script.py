@@ -58,9 +58,30 @@ def printNmapData(data):
     x = PrettyTable()
     x.field_names=[Fore.LIGHTYELLOW_EX+"Service"+Fore.RESET,Fore.LIGHTMAGENTA_EX+"Port"+Fore.RESET,Fore.BLUE+"State"+Fore.RESET]
     for port in data:
-        x.add_row([Fore.LIGHTYELLOW_EX+port["service"]["name"]+Fore.RESET,Fore.LIGHTMAGENTA_EX+port["portid"]+Fore.RESET,Fore.BLUE+port["state"]+Fore.RESET])
+        if port["state"]=="open":
+            x.add_row([Fore.LIGHTYELLOW_EX+port["service"]["name"]+Fore.RESET,Fore.LIGHTMAGENTA_EX+port["portid"]+Fore.RESET,Fore.BLUE+port["state"]+Fore.RESET])
     x.padding_width = 5
     print (x)
+
+
+
+def scan():
+    print(Fore.LIGHTGREEN_EX+"\n\n[2] SCAN YOUR TARGET WITH NMAP \n")
+
+    try:
+        try:
+            host=str(input(Fore.LIGHTGREEN_EX+"\n\tHost to scan [10.10.10.XXX]: "+Fore.RESET))
+            if host=="localhost":
+                host="127.0.0.1"
+            nmap = nmap3.Nmap()
+            results = nmap.scan_top_ports(host,default=25)
+            printNmapData(results[host])
+        except KeyboardInterrupt:
+            print (Fore.GREEN+"\nBack to the menu")
+            
+    except :
+        print (Fore.GREEN+"\nBack to the menu")
+    main() 
 
 
 
@@ -77,24 +98,6 @@ def reverseShell():
     except KeyboardInterrupt:
         print(Fore.LIGHTGREEN_EX+"[*] Stoping netcat ")
     main()
-
-
-def scan():
-    try:
-        try:
-            host=str(input(Fore.LIGHTGREEN_EX+"\n\tHost to scan [10.10.10.XXX]: "+Fore.RESET))
-            if host=="localhost":
-                host="127.0.0.1"
-            nmap = nmap3.Nmap()
-            results = nmap.scan_top_ports(host,default=25)
-            printNmapData(results[host])
-        except KeyboardInterrupt:
-            print (Fore.GREEN+"\nBack to the menu")
-            
-    except :
-        print (Fore.GREEN+"\nBack to the menu")
-    main()   
-
 
 
 def fuzz():
