@@ -1,9 +1,7 @@
+#!/bin/python3
 
 import nmap3
 import subprocess
-import signal
-import socket
-import sys
 import requests
 import htbapi
 from prettytable import PrettyTable
@@ -12,74 +10,32 @@ from colorama import init,Fore,Back,Style
 init(autoreset=True)
 apikey=None
 
+
 def main():
     banner()
-
-
-
-
+    help()
+    option=int(input(Fore.LIGHTYELLOW_EX+"Selected option: "+Fore.RESET))
+    switch_menu.get(option,exit)()
 
 def banner():
     f = open('art.txt', 'r')
     file_contents = f.read()
-    print (Fore.LIGHTGREEN_EX+file_contents)
+    print (Fore.LIGHTGREEN_EX+file_contents+Fore.RESET)
     f.close()
-    f = open('menu.txt', 'r')
-    file_contents = f.read()
-    print(Fore.LIGHTYELLOW_EX+file_contents)
-    option=int(input(Fore.LIGHTYELLOW_EX+"Selected option: "))
-    switch_menu.get(option,exit)()
+
 
 
 def help():
-    print("Ayuda iniciando .....")
-
-def printNmapData(data):
-    x = PrettyTable()
-    x.field_names=["Service","Port","State"]
-    for port in data:
-        x.add_row([port["service"]["name"],port["portid"],port["state"]])
-    print (x)
-
-def reverseShell():
-    try:
-        port = 8888
-        netcat= subprocess.run(["nc","-lnvp",str(port)])
-    except KeyboardInterrupt:
-        print("Cerrando la conexion ...")
-        banner()
-
-
-def scan():
-    host=str(input("\n\nIntroduce el host a analizar (IP): "))
-    if host=="localhost":
-        host="127.0.0.1"
-    nmap = nmap3.Nmap()
-    results = nmap.scan_top_ports(host,default=25)
-    printNmapData(results[host])
-    banner()
+    f = open('menu.txt', 'r')
+    file_contents = f.read()
+    print(Fore.LIGHTYELLOW_EX+file_contents+Fore.RESET)
 
 
 
-def fuzz():
-    try:
-        extensions=str(input("Extensiones que quieres fuzzear: "))
-        url=str(input("Direccion del servidor web a fuzzear: "))
-        url+"FUZZ"
-        try:
-            fuzzing= subprocess.run(["ffuf","-w","big.txt", "-e",extensions,"-u",url+"FUZZ"])
-            print(fuzzing)
-        except FileNotFoundError:
-            print(Fore.RED+"\t[!] ERROR FFUF NOT INSTALLED!!")
-    except KeyboardInterrupt:
-        print ("\nBack to the menu")
-        banner()
-    
-
+## Retrive all the Active Machines in HackTheBox
 def htbList():
     global apikey
     print(Fore.LIGHTGREEN_EX+"\n\n[1] LISTING ALL ACTIVE MACHINES IN HTB\n")
-    apikey="nqvyG2Jn3VDJmB3bsiCfjxAJsirGG4oLrMnfqfm5ZTXTJNCyniP6sIt4eT4i"
     if apikey==None:
         apikey=str(input("\tAPI KEY: "))
     try:
@@ -92,12 +48,69 @@ def htbList():
         x.padding_width = 5
         print (x)
     except:
-        print(Fore.RED+"\tERROR: Your HTB key is invalid!!!"+Fore.RESET)
+        print(Fore.RED+"\t[!] ERROR: INVALID HTB APIKEY !!"+Fore.RESET)
 
-    banner()
+    main()
 
-def exit():
-    print("Saliendo de la aplicacion.....")
+
+
+def printNmapData(data):
+    x = PrettyTable()
+    x.field_names=[Fore.LIGHTYELLOW_EX+"Service"+Fore.RESET,Fore.LIGHTMAGENTA_EX+"Port"+Fore.RESET,Fore.BLUE+"State"+Fore.RESET]
+    for port in data:
+        x.add_row([Fore.LIGHTYELLOW_EX+port["service"]["name"]+Fore.RESET,Fore.LIGHTMAGENTA_EX+port["portid"]+Fore.RESET,Fore.BLUE+port["state"]+Fore.RESET])
+    x.padding_width = 5
+    print (x)
+
+
+
+def reverseShell():
+    print(Fore.LIGHTGREEN_EX+"\n\n[3] SETTING LISTENING PORT WITH NETCAT \n")
+
+    try:
+        port = 8888
+        try:
+            netcat= subprocess.run(["nc","-lnvp",str(port)])
+        except FileNotFoundError:
+            print(Fore.RED+"\t[!] ERROR: NETCAT IS NOT INSTALLED!!")
+            
+    except KeyboardInterrupt:
+        print(Fore.LIGHTGREEN_EX+"[*] Stoping netcat ")
+    main()
+
+
+def scan():
+    try:
+        try:
+            host=str(input(Fore.LIGHTGREEN_EX+"\n\tHost to scan [10.10.10.XXX]: "+Fore.RESET))
+            if host=="localhost":
+                host="127.0.0.1"
+            nmap = nmap3.Nmap()
+            results = nmap.scan_top_ports(host,default=25)
+            printNmapData(results[host])
+        except KeyboardInterrupt:
+            print (Fore.GREEN+"\nBack to the menu")
+            
+    except :
+        print (Fore.GREEN+"\nBack to the menu")
+    main()   
+
+
+
+def fuzz():
+    try:
+        url=str(input(Fore.LIGHTGREEN_EX+"\t[1] Server to fuzz [ http[s]://IP:PORT/ ] : "))
+        extensions=str(input("\t[2] Extensions to Fuzz [ .html,.php,.js ]: "+Fore.RESET))
+        url+"FUZZ"
+        try:
+            fuzzing= subprocess.run(["ffuf","-w","big.txt", "-e",extensions,"-u",url+"FUZZ"])
+            print(fuzzing)
+        except FileNotFoundError:
+            print(Fore.RED+"\t[!] ERROR: FFUF NOT INSTALLED!!")
+    except KeyboardInterrupt:
+        print (Fore.GREEN+"\nBack to the menu")
+        main()
+    
 
 switch_menu={
         1:htbList,
@@ -105,5 +118,10 @@ switch_menu={
         3:reverseShell,
         4:fuzz
     }
+
+
+def exit():
+    print("Saliendo de la aplicacion.....")
+
 
 main()
