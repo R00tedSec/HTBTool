@@ -2,7 +2,6 @@
 
 import nmap3
 import subprocess
-import requests
 import htbapi
 from prettytable import PrettyTable
 from colorama import init,Fore,Back,Style
@@ -18,7 +17,7 @@ def main():
     switch_menu.get(option,exit)()
 
 def banner():
-    f = open('art.txt', 'r')
+    f = open('art/art.txt', 'r')
     file_contents = f.read()
     print (Fore.LIGHTGREEN_EX+file_contents+Fore.RESET)
     f.close()
@@ -26,7 +25,7 @@ def banner():
 
 
 def help():
-    f = open('menu.txt', 'r')
+    f = open('art/menu.txt', 'r')
     file_contents = f.read()
     print(Fore.LIGHTYELLOW_EX+file_contents+Fore.RESET)
 
@@ -36,7 +35,7 @@ def help():
 def htbList():
     global apikey
     print(Fore.LIGHTGREEN_EX+"\n\n[1] LISTING ALL ACTIVE MACHINES IN HTB\n")
-    if apikey==None:
+    if apikey==None or apikey=="error":
         apikey=str(input("\tAPI KEY: "))
     try:
         htb=htbapi.machines
@@ -49,7 +48,7 @@ def htbList():
         print (x)
     except:
         print(Fore.RED+"\t[!] ERROR: INVALID HTB APIKEY !!"+Fore.RESET)
-
+        apikey="error"
     main()
 
 
@@ -60,7 +59,7 @@ def printNmapData(data):
     for port in data:
         if port["state"]=="open":
             x.add_row([Fore.LIGHTYELLOW_EX+port["service"]["name"]+Fore.RESET,Fore.LIGHTMAGENTA_EX+port["portid"]+Fore.RESET,Fore.BLUE+port["state"]+Fore.RESET])
-    x.padding_width = 5
+    x.padding_width = 3
     print (x)
 
 
@@ -89,14 +88,15 @@ def reverseShell():
     print(Fore.LIGHTGREEN_EX+"\n\n[3] SETTING LISTENING PORT WITH NETCAT \n")
 
     try:
-        port = 8888
+        port=input(Fore.LIGHTGREEN_EX+"\tPORT: "+Fore.RESET)
         try:
+            print(Fore.LIGHTGREEN_EX+"\n[✓] Started netcat on port "+port)
             netcat= subprocess.run(["nc","-lnvp",str(port)])
         except FileNotFoundError:
-            print(Fore.RED+"\t[!] ERROR: NETCAT IS NOT INSTALLED!!")
+            print(Fore.RED+"[!] ERROR: NETCAT IS NOT INSTALLED!!")
             
     except KeyboardInterrupt:
-        print(Fore.LIGHTGREEN_EX+"[*] Stoping netcat ")
+        print(Fore.RED+"[*] Stoping netcat ")
     main()
 
 
@@ -106,13 +106,13 @@ def fuzz():
         extensions=str(input("\t[2] Extensions to Fuzz [ .html,.php,.js ]: "+Fore.RESET))
         url+"FUZZ"
         try:
-            fuzzing= subprocess.run(["ffuf","-w","big.txt", "-e",extensions,"-u",url+"FUZZ"])
-            print(fuzzing)
+            fuzzing= subprocess.run(["ffuf","-w","wordlists/big.txt", "-e",extensions,"-u",url+"FUZZ"])
         except FileNotFoundError:
             print(Fore.RED+"\t[!] ERROR: FFUF NOT INSTALLED!!")
     except KeyboardInterrupt:
         print (Fore.GREEN+"\nBack to the menu")
-        main()
+    print(Fore.LIGHTYELLOW_EX+"\n\t[✓] FUZZING FINISHED !!")
+    main()    
     
 
 switch_menu={
@@ -124,7 +124,7 @@ switch_menu={
 
 
 def exit():
-    print("Saliendo de la aplicacion.....")
+    print(Fore.LIGHTGREEN_EX+"\n\t[✓] BYE ... :D")
 
 
 main()
