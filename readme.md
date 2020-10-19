@@ -11,7 +11,7 @@ git clone https://github.com/Erheatex/HTBTool
 ```
 You need some things to make this tool work
 
-### Pre-install 📋
+### Prerequisites  📋
 
 _This are the prerequisites that you need_
 
@@ -30,23 +30,19 @@ sudo apt install netcat
 ```
 pip install -r requieriments.txt
 ```
-### Instalación 🔧
+### Usage 🔧
 
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
-
-_Dí cómo será ese paso_
+_How to use this tool_
 
 ```
-Da un ejemplo
+python3 script.py
 ```
 
-_Y repite_
+### List all the HTB active machines
 
-```
-hasta finalizar
-```
+_Whith the HTB api key you can list all the active machines in HTB_
 
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
+
 
 ## Ejecutando las pruebas ⚙️
 
