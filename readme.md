@@ -11,7 +11,7 @@ git clone https://github.com/Erheatex/HTBTool
 ```
 You need some things to make this tool work
 
-### Prerequisites  📋
+## Prerequisites  📋
 
 _This are the prerequisites that you need_
 
@@ -30,18 +30,26 @@ sudo apt install netcat
 ```
 pip install -r requieriments.txt
 ```
-### Usage 🔧
+## Usage 🔧
 
 _How to use this tool_
 
 ```
 python3 script.py
 ```
+<img src="/ScreenShots/menu.png" width="700">
 
-### List all the HTB active machines
+### [1] List all the HTB active machines
 
-_Whith the HTB api key you can list all the active machines in HTB_
+_With the HTB api key you can list all the active machines in HTB_
 
+Insert your API key 
+
+<img src="/ScreenShots/listHTB.png" width="500">
+
+You will get a list with all the machines 
+
+<img src="/ScreenShots/listHTB2.png" width="700">
 
 
 ## Ejecutando las pruebas ⚙️
