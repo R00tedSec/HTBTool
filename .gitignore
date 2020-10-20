@@ -1,2 +1,5 @@
 
-__pycache__/netcat.cpython-38.pyc
+__pycache__/
+.vscode/
+.gitattributes
+.DS_Store
