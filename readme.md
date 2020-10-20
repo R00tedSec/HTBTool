@@ -2,10 +2,6 @@
 
 _Basic tools in a basic way for HTB_
 
-```
-git clone https://github.com/Erheatex/HTBTool
-```
-You need some things to make this tool work
 ## Starting 🚀
 
 _Just download the tool._
@@ -13,7 +9,7 @@ _Just download the tool._
 ```
 git clone https://github.com/Erheatex/HTBTool
 ```
-You need some things to make this tool work
+You'll need some things to make this tool work
 
 ## Prerequisites  📋
 
@@ -91,6 +87,15 @@ _This is not a finished tool_
 Im using this project , as a way of learning python so any advice or bug reported will be thanked.
 
 I am open to new ideas and functionalities that you think the tool needs
+
+## TO DO ⚒
+* Full nmap with more options ( -A -Pn ....)
+* More HTB Info 
+  * User roots, owns 
+  * Retired Machines
+  * Server Status
+* Add more tools 
+¿ What do you thing i have to add ?
 
 ## Disclamer ⚡
 
