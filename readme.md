@@ -86,7 +86,7 @@ The script will ask you:
 
 ## Work in progress ⚙️
 
-_This is not a finished tool _
+_This is not a finished tool_
 
 Im using this project , as a way of learning python so any advice or bug reported will be thanked.
 
