@@ -101,12 +101,16 @@ def reverseShell():
 
 
 def fuzz():
+    print(Fore.LIGHTGREEN_EX+"\n\n[4] BRUTE FORCE DIRECTORIES AND FILES ( FFUF )   \n")
     try:
-        url=str(input(Fore.LIGHTGREEN_EX+"\t[1] Server to fuzz [ http[s]://IP:PORT/ ] : "))
-        extensions=str(input("\t[2] Extensions to Fuzz [ .html,.php,.js ]: "+Fore.RESET))
+        url=str(input(Fore.LIGHTGREEN_EX+"\t[1] Server to fuzz [ http[s]://IP:PORT/ ] : "+Fore.RESET))
+        extensions=str(input(Fore.LIGHTGREEN_EX+"\t[2] Extensions to Fuzz [ .html,.php,.js ]: "+Fore.RESET))
         url+"FUZZ"
+        httpcodes=str(input(Fore.LIGHTGREEN_EX+"\t[3] HTTP response status to manage[all by default]:  " +Fore.RESET) or "all")
+
+        print(httpcodes)       
         try:
-            fuzzing= subprocess.run(["ffuf","-w","wordlists/big.txt", "-e",extensions,"-u",url+"FUZZ"])
+            fuzzing= subprocess.run(["ffuf","-w","wordlists/big.txt","-mc",httpcodes, "-e",extensions,"-u",url+"FUZZ"])
         except FileNotFoundError:
             print(Fore.RED+"\t[!] ERROR: FFUF NOT INSTALLED!!")
     except KeyboardInterrupt:
