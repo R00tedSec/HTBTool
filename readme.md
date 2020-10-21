@@ -2,6 +2,7 @@
 
 _Basic tools in a basic way for HTB_
 
+This tool allows the user to list, port scan ,generate netcat connections and  enum a webserver easily without commands
 ## Starting 🚀
 
 _Just download the tool._
