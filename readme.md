@@ -30,7 +30,7 @@ sudo apt install netcat
 #### Python dependencies
 
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 ## Usage 🔧
 
